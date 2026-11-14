@@ -1,0 +1,26 @@
+rules_version = '2';
+// Airlock privacy receipts. Each (anonymous) user can create, list and delete only their own receipts.
+// A receipt holds the already de-identified payload and its metadata; the schema below rejects anything else,
+// so original text or the local vault can never be written here, even by a modified client.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{uid}/receipts/{receiptId} {
+      allow read, delete: if request.auth != null && request.auth.uid == uid;
+      allow update: if false;
+      allow create: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['task', 'payloadPreview', 'payloadBytes', 'payloadSha256', 'counts', 'answeredBy', 'model', 'version', 'createdAt'])
+        && request.resource.data.task is string && request.resource.data.task.size() <= 40
+        && request.resource.data.payloadPreview is string && request.resource.data.payloadPreview.size() <= 4000
+        && request.resource.data.payloadBytes is int && request.resource.data.payloadBytes >= 0
+        && request.resource.data.payloadSha256 is string && request.resource.data.payloadSha256.matches('^[0-9a-f]{64}$')
+        && request.resource.data.counts is map && request.resource.data.counts.size() <= 8
+        && request.resource.data.answeredBy in ['in_cloud', 'on_device']
+        && request.resource.data.model is string && request.resource.data.model.size() <= 60
+        && request.resource.data.version == 1
+        && request.resource.data.createdAt == request.time;
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

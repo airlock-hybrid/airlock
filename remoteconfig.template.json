@@ -1,0 +1,24 @@
+{
+  "parameters": {
+    "cloud_model": {
+      "defaultValue": { "value": "gemini-3.5-flash-lite" },
+      "description": "Cloud Gemini model that does the heavy lifting on de-identified text.",
+      "valueType": "STRING"
+    },
+    "verify_pass": {
+      "defaultValue": { "value": "true" },
+      "description": "Run a second on-device Gemini Nano pass over the redacted text before review.",
+      "valueType": "BOOLEAN"
+    },
+    "max_chars": {
+      "defaultValue": { "value": "12000" },
+      "description": "Largest input the demo accepts.",
+      "valueType": "NUMBER"
+    },
+    "default_entity_types": {
+      "defaultValue": { "value": "[\"PERSON\",\"EMAIL\",\"PHONE\",\"ADDRESS\",\"DATE\",\"ID\",\"URL\",\"ORG\"]" },
+      "description": "Kinds of identifiers hidden by default.",
+      "valueType": "JSON"
+    }
+  }
+}

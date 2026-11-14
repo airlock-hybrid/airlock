@@ -1,0 +1,29 @@
+{
+  "name": "airlock",
+  "version": "1.0.0",
+  "description": "Airlock: use cloud AI on sensitive text without the cloud ever seeing who it is about. Hybrid on-device + cloud inference with Firebase AI Logic.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "deploy": "npm run build && firebase deploy --only hosting,firestore,remoteconfig"
+  },
+  "license": "Apache-2.0",
+  "type": "module",
+  "dependencies": {
+    "firebase": "^13.3.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "firebase-tools": "^15.36.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0"
+  },
+  "private": true
+}
